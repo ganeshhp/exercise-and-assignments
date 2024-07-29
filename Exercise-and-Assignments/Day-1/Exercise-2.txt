@@ -1,0 +1,34 @@
+### list repository versions
+
+$ git log
+
+$ git log -p
+
+$ git log -p --graph
+
+### check the status of repository files
+
+$ git status
+
+### browse through the repository folder
+
+$ ls -la
+$ cd .git
+
+## check the config file
+
+$ cat config
+
+$ cd objects
+
+## check the HASH objects
+
+## Now create and git add aa file to the repository.
+## check the changes in the objects folder inside .git folder.
+
+# now commit the staged changed to the local repo. and check the objects folder contents.
+
+## check the contents of HEAD file
+
+$ cat HEAD
+

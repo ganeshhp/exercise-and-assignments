@@ -1,0 +1,15 @@
+### git Tag, git reset and git stash.
+
+### understand different ways to reset a branch using 'soft', 'hard' and 'mixed' reset options.
+
+### create a tag for a certain commit, so that one can find a particular version using tag reference.
+
+### Understand how git stash works. create a new file and stage the file contents. now to move the staged file to temporary location, we use git stash.
+
+## git stash
+
+## git stash apply
+
+## git stash drop
+
+## git stash list / show
