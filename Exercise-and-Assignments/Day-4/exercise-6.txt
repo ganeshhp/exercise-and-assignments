@@ -1,0 +1,36 @@
+## creating a playbook.
+## till now we have run ad-hoc commands and also used ansible-console command. but in order to work with multiple tasks, we have to use a playbook.
+
+$ cd ansible
+$ vi playbook.yml
+
+- name: sample playbook
+  hosts: localhost
+  gather_facts: true
+  connection: local
+
+  tasks:
+     - name: first task
+       setup:
+          filter: 'ansible_local' 
+
+## save and exit file.
+## let's the run the playbookk using below command.
+
+$ ansible-playbook playbook.yml
+
+## observe the logs.
+
+## now, let's write a playbook to test custom facts.
+
+- name: test custom facts
+  hosts: localhost
+  connection: local
+  gather_facts: true
+
+  tasks:
+     - name: test custom facts
+       degub:
+           msg: "the application user name is {{ ansible_local['custom']['appinfo']['appuser'] }}"
+
+## 

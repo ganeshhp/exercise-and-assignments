@@ -1,0 +1,44 @@
+## Now let's understand what are roles.
+## inside the ansible folder, first create the roles folder and then run the ansible-galaxy command to create the role structure.
+$ cd ansible
+$ mkdir roles
+$ cd roles
+$ ansible-galaxy init webserver
+
+## here in the command, webserver is the role name.
+## now, we will breakdown the playbook.yml playbook file into the "Webserver" role. So, let's move the playbook contents from playbook.yml file into the webserver role folder structure.
+
+## first let's move the tasks from the first play into tasks/main.yml file.
+
+$ vi webserver/tasks/main.yml
+
+## save and exit file.
+
+## declare variables inside vars folder /vars/main.yml file.
+
+$ vi webserver/vars/main.yml
+
+## save and exit file.
+
+## move the handlers tasks from handlers section from playbook to the handlers/main.yml file.
+
+$ vi webserver/handlers/main.yml
+
+## save and exit.
+
+## move the 'index.html' file from files folder of ansible root to files folder of webserver role.
+## Now, in the playbook.yml file the first play will only have the metadata about managed hosts, remote_user, gather_facts, become. And tasks declaration is to be replaced with roles declaration.
+
+roles:
+  - webserver
+
+## Similarly, tasks declaration inside the second play is to be moved into tasks YAML file of one more role, created as 'users'. Variables, handlers if any , similar way.
+
+roles:
+   - users
+
+## try running the playbook.yml file again same way.
+
+$ ansible-playbook playbook.yml -K
+
+## we expect to have similar results, but this time the playbook only has the metadata and roles are called.

@@ -1,0 +1,53 @@
+## managing variables in Ansible environment
+## inside the ansible code environment, create folder structure as defined below.
+
+$ cd ansible
+$ mkdir group_vars host_vars
+
+## create files inside these folder as per your host and group identities in inventory.
+
+$ touch group_vars/all group_vars/dbserver group_vars/webserver
+$ touch host_vars/192.168.87.54 host_vars/localhost
+
+## declare variables inside these files as defined below.
+
+$ vi group_vars/webserver
+
+'package_name': 'nginx'
+'service_name': 'nginx'
+
+## save and exit the file.
+
+$ vi host_vars/localhost
+
+'package_name': 'httpd'
+'service_name': 'httpd'
+ 
+## now to use these variables inside a command, we can test it.
+
+$ ansible webserver -i hosts -m yum -a "name={{package_name}} state=present use_backend=dnf" -k --connection local -K
+
+## validate which application gets installed with the data-lookup hierarchy.
+
+## working with custom facts.
+## in some cases you may want to define facts that are other than the system facts. we can define that as shown below.
+
+$ cd /etc/ansible
+$ mkdir facts.d
+$ cd facts.d
+$ vi custom.fact
+
+[appinfo]
+
+app_name: webapp
+app_user: ganeshhp
+
+## save and exit the file
+
+## now try running the setup module on the localhost once again and check if the custom facts are visible.
+
+$ ansible -i hosts localhost -m setup --connection local
+$ ansible -i hosts localhost -m setup -a "filter=ansible_local" -c local
+
+
+ 

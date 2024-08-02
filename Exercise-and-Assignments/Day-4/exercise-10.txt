@@ -1,0 +1,44 @@
+## while we are running the playbook against number of host as group, we can alter the order of execution of playbook on the hosts.
+## options are sorted / inventory / reverse_inventory / reverse_sorted / shuffle.
+
+
+hosts: all
+order: sorted
+gather_facts: False
+tasks:
+   - name:
+
+--------------------------
+## let's implement Parallelism in implementing tasks on number of hosts.
+
+hosts: all
+serial: 2  or,
+        "50%"    or,
+serial: 1
+        5
+        10   
+
+--------------------------
+## using conditional statement
+
+tasks:
+-  name: take an action on certain conditional fulfilment
+   when: ansible_facts['os_family'] == "RedHat"
+   command: '/usr/bin/pwd'
+
+or,
+
+tasks:
+  - name: manage users
+    user:
+        name: "{{username}}"
+        state: present
+    when: (ansible_facts['os_family'] == "RedHat" or
+           ansible_facts['distribution'] == "RedHat")
+    
+  - name: manage service
+    service:
+        name: "{{service_name}}"
+        state: stopped
+    when: (ansible_facts['os_family'] == "RedHat" and
+           ansible_facts['distribution'] == "RedHat")

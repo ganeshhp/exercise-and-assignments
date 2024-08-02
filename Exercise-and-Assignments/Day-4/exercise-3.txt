@@ -1,0 +1,35 @@
+## let's understand the ad-hoc command.
+
+  $ ansible -i hosts <group-or-hostname-as-per-inventory> -m setup
+
+## let's test it on localhost
+
+  $ ansible -i hosts localhost -m setup
+
+## this shows we have an error connecting to localhost as ansible tries connecting to localhost using SSH.
+
+  $ ansible -i hosts localhost -m setup -a "filter=ansible_os_family" --connection local
+
+## Similar to Localhost we want to manage the remote host. we will have to set SSH connections between ansible server and the node.
+##let's test the connection
+
+  $ ssh <ip-address-of-node>
+
+## if you are able to connect to the remote host over SSH using password authentication, let's run ansible command.
+
+  $ ansible -i hosts <ip-address-of-remote-host> -m setup -k
+
+## here -k allows ansible to prompt for SSH password.
+## now try checking usage of ansible-doc command. this command gives documentation about built-in ansible modules.
+
+  $ ansible-doc -l
+
+  $ ansible-doc yum
+
+## now let's try running tasks that require sudo previlages
+
+  $ ansible-i hosts localhost -m yum -a "name=nginx use_backend=dnf state=present" --connection local --become -K
+
+
+
+

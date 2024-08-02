@@ -1,0 +1,31 @@
+## taking this further to overcome the challenges in ad-hoc command in ansible we have command, ansible-console
+
+  $ ansible-console -i hosts localhost --connection local --become -K
+
+## this will open a REPL console to run tasks on the targetted hosts under the hosts inventory
+## try running help on the console
+
+  $ help
+
+  $ yum name=nginx state=present use_backend=dnf
+
+  $ command pwd
+
+## Using ad-hoc command with different modules
+
+  $ ansible -i hosts <remote-host> -m user -a "name=ganeshhp state=present" --become -K
+
+## try using the service, file, yum modules after understanding the argument optins from ansible-doc command.
+## using variables
+
+  $ ansible -i hosts localhost -m yum -a "name={{package_name}} state=present" --become --connection local -K
+
+## as we see the error for undefined variable. let's define the variable. this time inside the inventory file.
+
+  $ vi hosts
+
+    localhost package_name=nginx
+
+
+
+

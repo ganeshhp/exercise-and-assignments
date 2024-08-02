@@ -1,0 +1,50 @@
+## install ansible-core application on VMs.
+## In most cases the RHEL8 has Ansible ore installed. let's check the same with,
+
+$ ansible --version
+
+## if this returns an error, follow below instructions to install Anisble-core on the VM.
+
+## check the python version.
+
+$ python -V
+
+## if you get an error as 'unknown command', create a SYM link to the python binary.
+
+$ sudo yum install python-pip python-devel python
+
+$ sudo ln -s /usr/bin/python3.6 /usr/bin/python
+
+## check the version once more time.
+$ python -V
+
+## Ansible can be using python package repository or from YUM package repository.
+
+## let's first check how to install using Python package manager
+
+$ sudo python3 -m pip install -U pip
+$ sudo python3 -m pip install -U setuptools
+$ sudo pip3 install 'ansible==2.9.1'
+
+$ ansible --version
+
+## or we can use the YUM package manager to install ansible. this process will install the latest version of ansible.
+
+$ sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
+$ sudo yum update -y
+$ sudo yum install ansible -y
+$ ansible --version
+
+## let's explore the Ansible-core development environment.
+
+## the ansible --version command returns information about config file.
+
+$ cd /etc/ansible
+
+## here you have the required ansible.cfg and inventory file.
+
+## let's open the ansible.cfg file
+
+$ vi ansible.cfg
+
+## browse to the suggested github location to view earlier version of ansible.cfg file.

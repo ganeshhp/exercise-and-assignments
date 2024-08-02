@@ -1,0 +1,36 @@
+## passsing and managing variable while running a playbook.
+# Overriding variables from the command line,
+
+$ ansible-playbook playbook.yml -e "username=user10"
+
+--------------------
+
+## working with handlers
+## in the playbook where we want to restart the webservice only under certain condition, we use handlers.
+
+$ vi playbook.yml
+
+## add the handlers section inside the playbook, outside the tasks section. the handler task then is called using the notify function added to the deploy site task.
+
+handlers:
+
+  - name: restart_webservice
+    service:
+        name: "{{service_name}}"
+        state: restarted
+
+## remove the "restart webservice" task from tasks section.
+## add the notify function in Copy task.
+
+tasks:
+
+  - name: deploy site
+    copy:
+      src: index.html
+      dest: /var/www/html/index.html
+    notify:
+      restart_webservice
+
+## now, first make change to the index.html file and then try running the playbook with ansible-playbook command.
+
+$ ansible-playbook playbook.yml -K

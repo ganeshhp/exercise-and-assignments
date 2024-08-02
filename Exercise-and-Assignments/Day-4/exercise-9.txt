@@ -1,0 +1,85 @@
+### Variables can also be defined inside a task.
+
+$ vi playbook.yml
+
+- name: ensure a list of packages installed
+  yum:
+    name: "{{ packages }}"
+    use_backend: dnf
+  vars:
+    packages:
+    - httpd
+    - httpd-tools
+
+-----------------------
+
+## Using loops to install multiple packages in a single task.
+
+$ vi playbook-loop.yml
+
+    - name: Update repo cache for yum repo
+      yum: 
+         name: '*' 
+         state: latest 
+         update_cache: yes 
+         use_backend: dnf
+
+    - name: Install required system packages
+      yum: 
+         name: "{{ item }}" 
+         state: latest 
+         update_cache: yes
+      loop: [ 'ca-certificates', 'curl', 'python3-pip', 'virtualenv', 'python3-setuptools']
+
+---------------------------
+
+## packages, or action items that are to installed can be listed as well.
+
+- name: Install a list of packages
+  yum:
+    name:
+      - nginx
+      - chrony
+      - nano
+    state: present
+    use_backend: dnf
+
+----------------------------
+
+## if we want to execute the playbook tasks in debug mode, there by proceeding with eachtask execution with user confirmation.
+
+$ ansible-playbook playbook.yml --step
+
+-----------------------------
+
+## using loop to call variables from play
+
+vars:
+  packages:
+    - nano
+    - httpd
+    - httpd-tools
+    - wget
+
+tasks:
+- name: install packages using loop
+  yum:
+    - name: "{{item}}"
+      state: present
+      user_backend: dnf
+  loop: "{{packages}}"
+----------------------------
+## in case of afailed playbook execution, we can enable the retry parameter in the ansible.cfg, so only failed hosts can be implemented again.
+
+$ vi ansible.cfg
+
+## add a line to this file.
+
+retry_files_enabled = true
+
+## try running the playbook and check if a file gets created incase of failed playbook execution.
+
+$ ansible-playbook playbook.yml --limit @<path of playbook.retry file>
+
+
+

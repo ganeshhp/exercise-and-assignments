@@ -1,0 +1,71 @@
+## let's understand about Tags.
+## If we have large number of tasks and you want to selectively run a task or number of tasks or a play then we can make use tags to selectively execute a task or a play.
+
+## In the playbook file, tags can be added as shown below.
+
+tasks:
+- name: install packages
+  yum:
+    name:
+    - httpd
+    - memcached
+    state: present
+  tags:
+  - packages
+
+- name: deploy templates
+  copy:
+    src: index.html
+    dest: /var/wwww/html/index.html
+  tags:
+  - configuration
+
+## in the above playbook tasks, to run the tasks, we have to add tag details, as shown below.
+
+$ ansible-playbook playbook.yml --tags "configuration, packages"
+
+## or, to eleminate any tasks with refernce to a Tag.
+
+$ ansible-playbook playbook.yml --skip-tags "packages"
+
+--------------------------
+
+## Ignoring failed Command or Shell module tasks.
+
+$ vi new-playbook.yml
+
+tasks:
+-  name: run this command and ignore the result
+   shell: /usr/bin/somecommand
+   ignore_errors: True
+
+
+---------------------------
+
+## Using Variable Prompt to access valiable value at run time.
+
+$ cd ansible
+$ vi userplaybook.yml
+
+## 
+---
+- hosts: localhost
+  connection: local
+  become: true
+  vars_prompt:
+    - name: username
+      prompt: "What is your username?"
+      private: no
+    - name: password
+      prompt: "What is your password?"
+      private: yes
+  tasks:
+    - name: validate the entered username value
+      debug:
+        msg: 'Logging in as {{ username }}'
+    - name: create user with entered username value
+      user: 
+        name: "{{ username }}"
+        password: "{{ password }}" 
+        state: present
+ 

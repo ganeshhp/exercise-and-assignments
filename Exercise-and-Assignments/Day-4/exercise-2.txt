@@ -1,0 +1,58 @@
+## let's start with exploring the Ansible-core code environment and other config files.
+
+## check the ansible version using command,
+
+$ ansible --version
+
+# in the output look for the config file location. if the config file is not available, create one manually.
+
+$ mkdir ansible
+
+$ cd ansible
+
+$ vi ansible.cfg
+
+[defaults]
+
+inventory = <user-home-directory>/ansible/hosts
+
+## save and exit the file
+## now run command, to view config file contents.
+
+$ ansible-config view
+
+## now let's create our first inventory file.
+
+$ vi hosts
+
+localhost
+
+[webserver]
+192.168.33.100
+192.168.33.101
+
+[dbserver]
+192.168.33.101
+
+## save and exit file
+## now this is our Inventory file
+## let use the command to view and understand the managed hosts in inventory.
+
+$ ansible-inventory --list
+$ ansible-inventory --graph
+
+## try understanding all ansible utilities,
+
+ansible
+ansible-console     
+ansible-inventory   
+ansible-test
+ansible-config      
+ansible-doc         
+ansible-playbook    
+ansible-vault
+ansible-connection  
+ansible-galaxy      
+ansible-pull
+
+

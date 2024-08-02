@@ -1,0 +1,37 @@
+## working with Ansible_Vault utlity
+## Ansible vault is a utility to encrypt a file or a string, which has sensitive data that we do not want to expose to users.
+ 
+$ ansible-vault --help
+
+## here we can use the encrypt command option on a file to encrypt.
+## encrypt_string is a command to encrypt a string.
+
+$ cd ansible
+$ vi user-playbook.yml
+
+
+- hosts: localhost
+  connection: local
+  tasks:
+       - name: creat new user
+         become: true
+         user:
+             name: "{{ username }}"
+             state: present
+             password: "{{ password }}"
+
+## save and exit the file
+## the "username" and "password" variables are to be defined inside host_vars/localhost file.
+## the file host_vars/localhost is to be encrypted.
+
+$ ansible-vault encrypt host_vars/localhost
+
+## enter the password key to encrypt the file and memorize the key.
+
+## now to try running the user-playbook run the command with option.
+
+$ ansible-playbook user-playbook.yml --ask-vault-pass
+
+## enter the decryption passsword at the prompt.
+## check the results.
+
