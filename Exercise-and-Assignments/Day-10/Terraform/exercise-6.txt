@@ -1,0 +1,12 @@
+## let's understand what's terraform modules
+## Modules are containers for multiple resources that are used together. A module consists of a collection of .tf and/or .tf.json files kept together in a directory.
+## Every Terraform configuration has at least one module, known as its root module, which consists of the resources defined in the .tf files in the main working directory.
+
+## clone the repository to your terraform server
+
+$ git clone https://github.com/hashicorp/learn-terraform-init
+
+$ cd learn-terraform-init
+
+### Data sources allow Terraform to use information defined outside of Terraform, defined by another separate Terraform configuration, or modified by functions.
+### Each provider may offer data sources alongside its set of resource types.

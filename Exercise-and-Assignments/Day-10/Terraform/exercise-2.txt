@@ -1,0 +1,64 @@
+### let's start with creating terraform environment
+
+$ mkdir terraform-docker
+
+$ cd terraform-docker
+
+$ nano main.tf
+
+### append bellow lines of code to the file
+
+terraform {
+  required_providers {
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "~> 3.0.1"
+    }
+  }
+}
+
+### add providers to the config file.
+
+provider "docker" {}
+
+## now try running the init command.
+
+$ terraform init main.tf
+
+## once the providers are added we can define the resourcces that we want to create using the provider, in this case Docker as provider.
+## add below lines to the code.
+
+resource "docker_image" "nginx" {
+  name         = "nginx"
+  keep_locally = false
+}
+
+## Now let's create plan.
+
+$ terraform plan
+
+## and noe the apply command to provision the infrastructure.
+
+$ terraform apply
+
+## Now add below lines of code to the file.
+
+
+resource "docker_container" "nginx" {
+  image = docker_image.nginx.image_id
+  name  = "tutorial"
+
+  ports {
+    internal = 80
+    external = 8000
+  }
+}
+
+## run the plan and apply command one more time.
+
+$ terraform plan -out plan.tf
+
+$ terraform apply   .... or,
+
+$ terraform apply plan.tf
+

@@ -1,0 +1,35 @@
+### after we have build the package (image) we can add more action on the package using  
+### post-processors
+
+post-processor "docker-tag" {
+  repository = "learn-packer"
+  tags       = ["jammy"]
+}
+
+### Here as well we can add the only statement so that the post-processor runs only for a 
+### particular build, as shown below.
+
+post-processor "docker-tag" {
+  repository = "learn-packer"
+  tags       = ["jammy"]
+  only       = ["docker.ubuntu"]
+}
+
+### here the docker-tag is a type of post-processor that we use for tagging the image name.
+### let's add one more docker-tag post-processor for other source build.
+
+post-processor "docker-tag" {
+  repository = "learn-packer"
+  tags       = ["24.04"]
+  only       = ["docker.ubuntu-focal"]
+}
+
+## sequential post-processor.
+### we can add one more processor that will follow the docker-tag post-processor.
+
+post-processor "docker-import" {
+    repository = "ganeshhp"
+    tag =  ["ubuntu", "focal"]
+    only = ["docker.ubuntu-focal"]
+  }
+

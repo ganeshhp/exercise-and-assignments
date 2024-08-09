@@ -1,0 +1,37 @@
+### Parallel builds
+
+### one configuration file can be used for multiple builds, we can check this as follows.
+
+## add a source statement to the config file.
+
+source "docker" "ubuntu-focal" {
+  image  = "ubuntu:focal"
+  commit = true
+}
+
+### now add the source in the build as follows.
+
+build {
+  name    = "learn-packer"
+  sources = [
+    "source.docker.ubuntu",
+    "source.docker.ubuntu-focal",
+  ]
+}
+
+### the source name need not be same for all sources. It can be different as well, like AWS.
+     
+## for the provisioner block we will add "only" statement so that the provisioning can be forced for a particular source only and not all parallel sources.
+
+  provisioner "shell" {
+    environment_vars = [
+      "package_name=apache2",
+    ]
+
+    only = ["docker.ubuntu"]
+
+    inline = [
+      "apt-get update",
+      "apt-get install -y $package_name",
+    ]
+  }

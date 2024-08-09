@@ -1,0 +1,35 @@
+### Now, let's understand how we make use of variables in the configuration file.
+## add below lines to the configuration file above the source block.
+
+variable "docker_image" {
+  type    = string
+  default = "ubuntu:jammy"
+}
+
+### Now change the source block in the configuration file to refer the variable name.
+
+source "docker" "ubuntu" {
+  image = var.docker_image
+  commit = true
+}
+
+### we can add the variable declaration in a file as well. 
+### create a file as vars_file.hcl and add below line to the file and save.
+
+docker_image = "ubuntu:latest",
+
+### now we can use the variable declared in the file and supply it as an argument to the build.
+
+$ packer build --var-file=vars_file.hcl docker.pkr.hcl
+
+## this way we can override the value for docker_image variable that's defined in the 
+## configuration file.
+
+## we also allow packer to load the variables from the file that has extension as,  ".auto.pkrvars.hcl"
+### try renaming the file as,
+
+$ mv vars_file.hcl vars.auto.pkrvars.hcl
+
+## try building the configuration without suppling the variable file name.
+
+$ packer build docker.pkr.hcl

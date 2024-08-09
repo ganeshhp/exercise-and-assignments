@@ -1,0 +1,29 @@
+### query data from the infrastructure using 'output'
+
+## create the infrastructure.
+
+$ sudo terraform init
+
+$ sudo terraform apply
+
+## now we can get the details of the deployed infra by querying the infra.
+## Create a new file as output.tf and add below lines to the file.
+
+output "container_id" {
+  description = "ID of the Docker container"
+  value       = docker_container.nginx.id
+}
+
+output "image_id" {
+  description = "ID of the Docker image"
+  value       = docker_image.nginx.id
+}
+
+## we keep all .tf (terraform) files in the same folder.
+
+## run the terraform apply command and observe the output displayed towards the end of logs.
+## we can also query the output using the output command,
+
+$ terraform output
+
+

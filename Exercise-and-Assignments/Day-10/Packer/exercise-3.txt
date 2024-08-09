@@ -1,0 +1,30 @@
+### Now that we have build the docker image using packer configuration, we will now add provisioning functionality so that we can customize the image that we build.
+
+### in the configuration file let add below code in the build block. close the build block after adding the provision block.
+
+provisioner "shell" {
+  environment_vars = [
+    "package_name=apache2",
+  ]
+  inline = [
+    "apt-get update",
+    "apt-get install -y $package_name",
+  ]
+}
+
+### make sure we format and validate the configuration file before building.
+
+$ sudo packer fmt docker.pkr.hcl
+
+$ sudo packer validate docker.pkr.hcl
+
+### now let's try running the build
+
+$ sudo packer build docker.pkr.hcl
+
+### check the docker image and create container using the image to validate if provisioning has ### made the required changes to the image.
+## we can add more provisioners to the build below the existing provisioner
+
+provisioner "shell" {
+    inline = ["echo Hello World >> /var/www/html/index.html"]
+  }

@@ -1,0 +1,60 @@
+### We will start with creating the packer project environment by creating a folder. Let's name the folder as packer_project
+
+$ mkdir packer_project
+
+$ cd packer_project
+
+### in this folder let's first create a template file.
+
+$ nano docker.pkr.hcl
+
+### append the file with below code. this is for initiating the template with packer key-word and state the ### required plugins
+
+packer {
+  required_plugins {
+    docker = {
+      version = ">= 1.0.8"
+      source = "github.com/hashicorp/docker"
+    }
+  }
+}
+
+### Define the source from which we can go ahead to build the image package.
+
+source "docker" "ubuntu" {
+  image  = "ubuntu:jammy"
+  commit = true
+}
+
+### below code defines the build section for the image to build. In this section we define how to build the ### image.
+
+build {
+  name    = "learn-packer"
+  sources = [
+    "source.docker.ubuntu"
+  ]
+}
+
+### now let's initialize the packer configuration.
+
+$ sudo packer init docker.pkr.hcl
+
+### we can format the code in the configuration file using,
+
+$ sudo packer fmt docker.pkr.hcl
+
+### we can also validate the code for syntax correctness using,
+
+$ sudo packer validate docker.pkr.hcl
+
+### let's build the configuration using,
+
+$ sudo packer build docker.pkr.hcl
+
+### let's validate the image build using docker command,
+
+$ sudo docker images
+
+## remove the image once validated,
+
+$ docker rmi <image_id>
